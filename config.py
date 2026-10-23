@@ -11,7 +11,7 @@
 #
 
 import os
-from os import environ,getenv
+from os import environ, getenv
 import logging
 from logging.handlers import RotatingFileHandler
 
@@ -36,15 +36,17 @@ FSUB_LINK_EXPIRY = int(os.getenv("FSUB_LINK_EXPIRY", "10"))  # 0 means no expiry
 BAN_SUPPORT = os.environ.get("BAN_SUPPORT", "https://t.me/Sofi_Backup")
 TG_BOT_WORKERS = int(os.environ.get("TG_BOT_WORKERS", "200"))
 #--------------------------------------------
-START_PIC = os.environ.get("START_PIC", "https://image.zaw-myo.workers.dev/image/5ac5d5da-c3e6-4b34-9b75-fefd36a70fb7")
+START_PIC = os.environ.get("START_PIC", "https://graph.org/file/56b5deb73f3b132e2bb73.jpg")
 FORCE_PIC = os.environ.get("FORCE_PIC", "https://telegra.ph/file/e292b12890b8b4b9dcbd1.jpg")
 
 #--------------------------------------------
+# Safe Gateway & Shortener Configuration
+#--------------------------------------------
+VERIFY_GATEWAY_URL = os.environ.get("VERIFY_GATEWAY_URL", "https://safe-gateway-verification-page.vercel.app")
 SHORTLINK_URL = os.environ.get("SHORTLINK_URL", "shortxlinks.com")
 SHORTLINK_API = os.environ.get("SHORTLINK_API", "a6ab83a9b")
-TUT_VID = os.environ.get("TUT_VID","https://t.me/How_too_penlink")
+TUT_VID = os.environ.get("TUT_VID", "https://t.me/How_too_penlink")
 SHORT_MSG = "<b>⌯ Here is Your Download Link, Must Watch Tutorial Before Clicking On Download...</b>"
-
 SHORTENER_PIC = os.environ.get("SHORTENER_PIC", "https://telegra.ph/file/ec17880d61180d3312d6a.jpg")
 #--------------------------------------------
 
@@ -80,10 +82,9 @@ CMD_TXT = """<blockquote><b>» ᴀᴅᴍɪɴ ᴄᴏᴍᴍᴀɴᴅs:</b></blockqu
 <b>›› /delreq :</b> Rᴇᴍᴏᴠᴇᴅ ʟᴇғᴛᴏᴠᴇʀ ɴᴏɴ-ʀᴇǫᴜᴇsᴛ ᴜsᴇʀs
 """
 #--------------------------------------------
-CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", "<b>• ʙʏ @Rkn_Sofi</b>") #set your Custom Caption here, Keep None for Disable Custom Caption
-PROTECT_CONTENT = True if os.environ.get('PROTECT_CONTENT', "False") == "True" else False #set True if you want to prevent users from forwarding files from bot
+CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", "<b>• ʙʏ @Rkn_Sofi</b>")
+PROTECT_CONTENT = True if os.environ.get('PROTECT_CONTENT', "False") == "True" else False
 #--------------------------------------------
-#Set true if you want Disable your Channel Posts Share button
 DISABLE_CHANNEL_BUTTON = os.environ.get("DISABLE_CHANNEL_BUTTON", None) == 'True'
 #--------------------------------------------
 BOT_STATS_TEXT = "<b>BOT UPTIME</b>\n{uptime}"
@@ -93,19 +94,14 @@ USER_REPLY_TEXT = "ʙᴀᴋᴋᴀ ! ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴍʏ ꜱᴇɴᴘ
 
 OWNER_TAG = os.environ.get("OWNER_TAG", "mrkillersss")
 UPI_ID = os.environ.get("UPI_ID", "")
-QR_PIC = os.environ.get("QR_PIC", "https://image.zaw-myo.workers.dev/image/6425d15d-3879-438e-9bba-757e610035ed")
-SCREENSHOT_URL = os.environ.get("SCREENSHOT_URL", f"t.me/mrkillersss")
+QR_PIC = os.environ.get("QR_PIC", "https://graph.org/file/242b7f1b52743938d81f1.jpg")
+SCREENSHOT_URL = os.environ.get("SCREENSHOT_URL", "t.me/mrkillersss")
 #--------------------------------------------
 #Time and its price
-#7 Days
 PRICE1 = os.environ.get("PRICE1", "0 rs")
-#1 Month
 PRICE2 = os.environ.get("PRICE2", "60 rs")
-#3 Month
 PRICE3 = os.environ.get("PRICE3", "150 rs")
-#6 Month
 PRICE4 = os.environ.get("PRICE4", "280 rs")
-#1 Year
 PRICE5 = os.environ.get("PRICE5", "550 rs")
 
 #===================(END)========================#
@@ -130,4 +126,3 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 def LOGGER(name: str) -> logging.Logger:
     return logging.getLogger(name)
-   
