@@ -5,8 +5,10 @@ import base64
 import re
 import asyncio
 import time
+from urllib.parse import quote
 from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
+import config
 from config import *
 from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
 from shortzy import Shortzy
@@ -87,7 +89,6 @@ async def is_sub(client, user_id, channel_id):
     try:
         member = await client.get_chat_member(channel_id, user_id)
         status = member.status
-        #print(f"[SUB] User {user_id} in {channel_id} with status {status}")
         return status in {
             ChatMemberStatus.OWNER,
             ChatMemberStatus.ADMINISTRATOR,
@@ -98,9 +99,7 @@ async def is_sub(client, user_id, channel_id):
         mode = await db.get_channel_mode(channel_id)
         if mode == "on":
             exists = await db.req_user_exist(channel_id, user_id)
-            #print(f"[REQ] User {user_id} join request for {channel_id}: {exists}")
             return exists
-        #print(f"[NOT SUB] User {user_id} not in {channel_id} and mode != on")
         return False
 
     except Exception as e:
@@ -165,7 +164,7 @@ async def get_message_id(client, message):
         return 0
     elif message.text:
         pattern = "https://t.me/(?:c/)?(.*)/(\d+)"
-        matches = re.match(pattern,message.text)
+        matches = re.match(pattern, message.text)
         if not matches:
             return 0
         channel_id = matches.group(1)
@@ -224,10 +223,22 @@ def get_exp_time(seconds):
 #
 
 
+# ============================
+# SAFE GATEWAY INTEGRATED SHORTLINK
+# ============================
 async def get_shortlink(url, api, link):
+    try:
+        gateway_base = getattr(config, "VERIFY_GATEWAY_URL", "https://safe-gateway-verification-page.vercel.app").rstrip('/')
+    except Exception:
+        gateway_base = "https://safe-gateway-verification-page.vercel.app"
+
+    # Destination link ko base64 format me encode karein
+    encoded_link = base64.b64encode(link.encode("utf-8")).decode("utf-8")
+    gateway_target = f"{gateway_base}/?data={quote(encoded_link)}"
+
     shortzy = Shortzy(api_key=api, base_site=url)
-    link = await shortzy.convert(link)
-    return link
+    short_link = await shortzy.convert(gateway_target)
+    return short_link
 
 
 subscribed = filters.create(is_subscribed)
